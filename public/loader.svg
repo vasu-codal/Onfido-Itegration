@@ -1,0 +1,14 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="24" cy="24" r="22.5" stroke="#636670" stroke-opacity="0.15" stroke-width="3"/>
+<path d="M46.5 24C46.5 21.0453 45.918 18.1194 44.7873 15.3896C43.6566 12.6598 41.9992 10.1794 39.9099 8.0901C37.8206 6.00078 35.3402 4.34344 32.6104 3.21271C29.8806 2.08198 26.9547 1.5 24 1.5" stroke="#636670" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <animateTransform
+			attributeType="xml"
+			attributeName="transform"
+			type="rotate"
+			from="0 24 24"
+			to="360 24 24"
+			dur="0.7s"
+			repeatCount="indefinite"
+		/>
+</path>
+</svg>

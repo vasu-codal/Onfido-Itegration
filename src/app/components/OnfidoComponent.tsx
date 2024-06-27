@@ -7,7 +7,7 @@ import Image from "next/image";
 
 interface OnfidoComponentProps {
   applicantId: string;
-  onComplete: (data: any) => {};
+  // onComplete: (data: any) => {};
 }
 
 const getToken = async (applicantId: string): Promise<string> => {
@@ -24,7 +24,7 @@ const getToken = async (applicantId: string): Promise<string> => {
 
 const OnfidoComponent: React.FC<OnfidoComponentProps> = ({
   applicantId,
-  onComplete,
+  // onComplete,
 }) => {
   const [loading, setLoading] = useState(false);
   const [onfidoInstance, setOnfidoInstance] = useState<Handle | null>(null);
@@ -37,7 +37,7 @@ const OnfidoComponent: React.FC<OnfidoComponentProps> = ({
         containerId: "onfido-mount",
         onComplete: (data: any) => {
           console.log("Onfido complete:", data);
-          onComplete(data);
+          // onComplete(data);
         },
         steps: ["welcome", "document", "face", "complete"],
         // customUI: {

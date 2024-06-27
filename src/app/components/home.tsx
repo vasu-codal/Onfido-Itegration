@@ -69,9 +69,9 @@ const Home = () => {
         <div className="my-3 mx-72">
           <OnfidoComponent
             applicantId={applicantId}
-            onComplete={(data) => {
-              console.log(data);
-            }}
+            // onComplete={(data) => {
+            //   console.log(data);
+            // }}
           />
         </div>
       )}

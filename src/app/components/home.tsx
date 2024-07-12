@@ -1,81 +1,83 @@
 "use client";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import OnfidoComponent from "../components/OnfidoComponent";
 
-const Home = () => {
-  const [applicantId, setApplicantId] = useState(null);
+interface FormData {
+  firstName: string;
+  lastName: string;
+}
 
-  const handleCreateApplicant = async () => {
+const Home: React.FC = () => {
+  const [applicantId, setApplicantId] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>({
+    firstName: "",
+    lastName: "",
+  });
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleCreateApplicant = async (): Promise<void> => {
     const response = await fetch("/api/createApplicant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        first_name: "Vasu",
-        last_name: "Sojitra",
-        dob: "1990-01-31",
-        address: {
-          building_number: "100",
-          street: "Main Street",
-          town: "London",
-          postcode: "SW4 6EH",
-          country: "GBR",
-        },
+        first_name: formData.firstName,
+        last_name: formData.lastName,
       }),
     });
     const { data } = await response.json();
     setApplicantId(data?.id);
   };
 
-  const handleAmlCheck = async () => {
-    const response = await fetch("/api/performAmlCheck", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ applicantId }),
-    });
-    const amlData = await response.json();
-    console.log("AML Check Result:", amlData);
-  };
-
-  const handleDocs = async () => {
-    const response = await fetch("/api/documents", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ applicantId }),
-    });
-    const Data = await response.json();
-    console.log("Doc List:", Data);
-  };
-
   return (
     <div className="m-5">
       <h1>Onfido Integration</h1>
-      {!applicantId && (
-        <div className="create-applicant-wrapper">
+      {!applicantId ? (
+        <div className="create-applicant-wrapper flex gap-3">
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            value={formData.firstName}
+            onChange={handleInputChange}
+            className="p-2 border border-gray-300 rounded-md mb-3"
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            value={formData.lastName}
+            onChange={handleInputChange}
+            className="p-2 border border-gray-300 rounded-md mb-3"
+          />
           <button
             onClick={handleCreateApplicant}
             className="bg-slate-900 text-white p-3 rounded-lg"
           >
-            Create Applicant
+            AutoFill
           </button>
         </div>
-      )}
-      {applicantId && (
-        <div className="my-3 mx-72">
-          <OnfidoComponent
-            applicantId={applicantId}
-            // onComplete={(data) => {
-            //   console.log(data);
-            // }}
-          />
+      ) : (
+        <div>
+          <button
+            onClick={() => {
+              setApplicantId(null);
+            }}
+            className="bg-slate-300 text-black p-3 m-3 rounded-lg"
+          >
+            Remove
+          </button>
+          <OnfidoComponent applicantId={applicantId} />
         </div>
       )}
-      {applicantId && <button onClick={handleDocs}>Get Doc List</button>}
     </div>
   );
 };
